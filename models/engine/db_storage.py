@@ -23,7 +23,7 @@ class DBStorage:
         session_market = sessionmaker(bind=self.__engine)
         with session_market() as session:
             if cls is None:
-                    for obj in self.__session.query(cls).all():
+                    for obj in self.__session.query(cls).all(): #No puede ser cls porque es nulo
                         dic[obj.to_dict()['class'] + '.' + obj.id] = obj
             else:
                  for obj in self.__session.query(cls).all():
