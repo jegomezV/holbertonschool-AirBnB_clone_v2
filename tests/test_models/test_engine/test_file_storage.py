@@ -107,3 +107,23 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_create_by_dict(self):
+        """test the create by dict"""
+        from models.base_model import BaseModel
+        dict_base = {
+            "city_id":'0001',
+            "user_id":'0001',
+            "name":"My_little_house",
+            "number_rooms":4,
+            "number_bathrooms":2,
+            "max_guest":10,
+            "price_by_night":300,
+            "latitude":37.773972,
+            "longitude":-122.431297}
+        
+        test = BaseModel(**dict_base)
+        self.assertEqual(test.user_id, dict_base["user_id"])
+        self.assertEqual(test.name, "My little house")
+        self.assertEqual(test.number_rooms, 4)
+        self.assertEqual(test.number_bathrooms, 2)

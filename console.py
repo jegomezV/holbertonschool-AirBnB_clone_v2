@@ -129,16 +129,17 @@ class HBNBCommand(cmd.Cmd):
             for items in args:
                 key, value = items.replace('"', '').split('=')
                 value = value.replace("_", " ")
-                if '.' in value:
-                    try:
-                        value = float(value)
-                    except:
-                        pass
-                else:
-                    try:
-                        value = int(value)
-                    except:
-                        pass
+                if key not in ("user_id", "city_id"):
+                    if '.' in value:
+                        try:
+                            value = float(value)
+                        except:
+                            pass
+                    else:
+                        try:
+                            value = int(value)
+                        except:
+                            pass
                 dic_args[key] = value
         new_instance = HBNBCommand.classes[name_class](**dic_args)
         storage.save()
