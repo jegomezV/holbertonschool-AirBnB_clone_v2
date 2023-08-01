@@ -15,7 +15,6 @@ class FileStorage:
             for key, value in FileStorage.__objects.items():
                 if key.startswith(cls.__name__):
                     dict_return[key] = value
-                    print(dict_return[key])
             return dict_return
         return FileStorage.__objects
 
@@ -62,4 +61,4 @@ class FileStorage:
                 key = type(obj).__name__ + '.' + obj.id
                 del self.__objects[key]
             except Exception:
-                print("Object no found")
+                pass
