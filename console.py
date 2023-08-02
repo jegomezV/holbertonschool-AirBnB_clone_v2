@@ -3,7 +3,7 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -142,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
                             pass
                 dic_args[key] = value
         new_instance = HBNBCommand.classes[name_class](**dic_args)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -217,24 +217,21 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-    def do_all(self, args):
+    def do_all(self, line):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
-
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+        list_print = []
+        if line in HBNBCommand.classes:
+            for key, value in storage.all().items():
+                if value.to_dict()["__class__"] == line:
+                    list_print.append(value.__str__())
+            print(list_print)
+        elif not line:
+            for key, value in storage.all().items():
+                list_print.append(value.__str__())
+            print(list_print)
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
-
+            print("** class doesn't exist **")
+        
     def help_all(self):
         """ Help information for the all command """
         print("Shows all objects, or all of a class")
