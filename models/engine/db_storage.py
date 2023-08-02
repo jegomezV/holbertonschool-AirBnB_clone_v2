@@ -46,7 +46,7 @@ class DBStorage:
             for obj in self.__session.query(cls).all():
                 dic[type(obj).__name__ + '.' + obj.id] = obj
         else:
-            for cls in [City, State]:
+            for cls in [City, State, User]:
                 for obj in self.__session.query(cls).all():
                     dic[type(obj).__name__ + '.' + obj.id] = obj
 
