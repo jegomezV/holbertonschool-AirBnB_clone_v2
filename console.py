@@ -10,7 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import re
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -133,12 +133,12 @@ class HBNBCommand(cmd.Cmd):
                     if '.' in value:
                         try:
                             value = float(value)
-                        except:
+                        except Exception:
                             pass
                     else:
                         try:
                             value = int(value)
-                        except:
+                        except Exception:
                             pass
                 dic_args[key] = value
         new_instance = HBNBCommand.classes[name_class](**dic_args)
@@ -207,7 +207,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -231,7 +231,7 @@ class HBNBCommand(cmd.Cmd):
             print(list_print)
         else:
             print("** class doesn't exist **")
-        
+
     def help_all(self):
         """ Help information for the all command """
         print("Shows all objects, or all of a class")
@@ -302,7 +302,6 @@ class HBNBCommand(cmd.Cmd):
             # check for quoted val arg
             if args[2] and args[2][0] == '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
-
             # if att_val was not quoted arg
             if not att_val and args[2]:
                 att_val = args[2].partition(' ')[0]
@@ -336,6 +335,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

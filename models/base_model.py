@@ -25,14 +25,15 @@ class BaseModel():
                 if key != "__class__":
                     if key == "created_at" or key == "updated_at":
                         setattr(self, key,
-                                datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
+                                datetime.strptime(value,
+                                                  "%Y-%m-%dT%H:%M:%S.%f"))
                     else:
                         setattr(self, key, value)
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        return '[{}] ({}) {}'.format(cls, self.id, self.to_dict())
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
@@ -49,7 +50,6 @@ class BaseModel():
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        
         dictionary.pop("_sa_instance_state", None)
 
         return dictionary

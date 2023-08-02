@@ -49,7 +49,7 @@ class DBStorage:
             for cls in [City, State]:
                 for obj in self.__session.query(cls).all():
                     dic[type(obj).__name__ + '.' + obj.id] = obj
-    
+
         return dic
 
     def new(self, obj):
@@ -66,7 +66,7 @@ class DBStorage:
         if obj:
             self.__session.delete(obj)
             self.save()
-    
+
     def reload(self):
         """"""
         Base.metadata.create_all(self.__engine)
