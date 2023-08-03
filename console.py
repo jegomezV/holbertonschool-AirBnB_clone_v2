@@ -221,7 +221,7 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         list_print = []
         if line in HBNBCommand.classes:
-            for key, value in storage.all().items():
+            for key, value in storage.all(self.classes[line]).items():
                 if value.to_dict()["__class__"] == line:
                     list_print.append(value.__str__())
             print(list_print)

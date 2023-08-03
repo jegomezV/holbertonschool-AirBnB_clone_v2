@@ -35,9 +35,6 @@ class DBStorage:
         if env == "test":
             Base.metadata.drop_all(bind=self.__engine)
 
-        self.__session = scoped_session(sessionmaker(bind=self.__engine,
-                                                     expire_on_commit=False))
-
     def all(self, cls=None):
         """"""
 
@@ -46,7 +43,7 @@ class DBStorage:
             for obj in self.__session.query(cls).all():
                 dic[type(obj).__name__ + '.' + obj.id] = obj
         else:
-            for cls in [City, State, User]:
+            for cls in [City, State, User, Place, Amenity, Review]:
                 for obj in self.__session.query(cls).all():
                     dic[type(obj).__name__ + '.' + obj.id] = obj
 
@@ -70,5 +67,8 @@ class DBStorage:
     def reload(self):
         """"""
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session_tmp = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(Session_tmp)
         self.__session = Session()
+
+# echo 'create Place city_id="11f97478-4bb9-40bb-a4b9-54747837d141" user_id="4fc49084-dcf1-4281-a7f8-8cb911e350e5" name="Lovely_place" number_rooms=3 number_bathrooms=1 max_guest=6 price_by_night=120 latitude=37.773972 longitude=-122.431297' | HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db ./console.py

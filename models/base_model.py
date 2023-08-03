@@ -15,7 +15,7 @@ class BaseModel():
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
+        """Instantiates a new model"""
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
@@ -34,7 +34,6 @@ class BaseModel():
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         dic_return = self.to_dict()
-        dic_return.pop("__class__", None)
         return '[{}] ({}) {}'.format(cls, self.id, dic_return)
 
     def save(self):
