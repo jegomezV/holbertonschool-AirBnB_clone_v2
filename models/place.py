@@ -2,8 +2,23 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from os import getenv
-from sqlalchemy import Column, String, ForeignKey, Integer, Float
+from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
+
+place_amenity = Table("place_amenity",
+                      Base.metadata,
+                      Column(
+                          "place_id",
+                          String(60),
+                          ForeignKey("places.id"),
+                          primary_key=True,
+                          nullable=False),
+                      Column(
+                          "amenity_id",
+                          String(60),
+                          ForeignKey("amenities.id"),
+                          primary_key=True,
+                          nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -26,6 +41,8 @@ class Place(BaseModel, Base):
     # DBStorage
     if getenv("HBNB_TYPE_STORAGE") == "db":
         reviews = relationship("Review", backref="place", cascade='delete')
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                 viewonly=False, overlaps="place_amenities")
     else:
         # FileStorage
         @property
@@ -39,3 +56,21 @@ class Place(BaseModel, Base):
                 if value.place_id == self.id:
                     review_list.append(value)
             return review_list
+        @property
+        def amenities(self):
+            """"""
+            from models import storage
+            from models.amenity import Amenity
+            amenity_dict = storage.all(Amenity)
+            amenity_list = []
+            for key, value in amenity_dict.items():
+                if value.id in self.amenity_ids:
+                    amenity_list.append(value)
+            return amenity_list
+
+        @amenities.setter
+        def amenities(self, object=None):
+            """"""
+            from models.amenity import Amenity
+            if object and isinstance(object, Amenity):
+                self.amenity_ids.append(object.id)
