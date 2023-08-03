@@ -5,6 +5,7 @@ from os import getenv
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 
+
 place_amenity = Table("place_amenity",
                       Base.metadata,
                       Column(
@@ -56,6 +57,7 @@ class Place(BaseModel, Base):
                 if value.place_id == self.id:
                     review_list.append(value)
             return review_list
+
         @property
         def amenities(self):
             """"""
