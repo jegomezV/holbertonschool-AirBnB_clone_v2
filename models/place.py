@@ -48,7 +48,7 @@ class Place(BaseModel, Base):
         # FileStorage
         @property
         def reviews(self):
-            """"""
+            """ Return a list with all reviews """
             from models import storage
             from models.review import Review
             review_dict = storage.all(Review)
@@ -60,7 +60,7 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            """"""
+            """ Return a list with all amenities in the place """
             from models import storage
             from models.amenity import Amenity
             amenity_dict = storage.all(Amenity)
@@ -72,7 +72,7 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, object=None):
-            """"""
+            """ Set amenities for the place """
             from models.amenity import Amenity
             if object and isinstance(object, Amenity):
                 self.amenity_ids.append(object.id)
