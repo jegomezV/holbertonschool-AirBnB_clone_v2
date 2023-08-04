@@ -17,7 +17,6 @@ class TestConsole(unittest.TestCase):
         output = io.StringIO()
         sys.stdout = output
         self.console.onecmd('create State id="01234" name="California"')
-        state_id = output.getvalue().strip()  # Eliminar el salto de línea al final
+        state_id = output.getvalue().strip()
         sys.stdout = sys.__stdout__
-        self.assertIn("1234", state_id)  # Buscar "1234" en lugar de "01234"
-
+        self.assertIn("1234", state_id)
