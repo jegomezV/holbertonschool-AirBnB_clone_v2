@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""""""
+""" DBStorange for the HNBN project """
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -13,12 +13,12 @@ from models.user import User
 
 
 class DBStorage:
-    """"""
+    """ That storange in the database """
     __engine = None
     __session = None
 
     def __init__(self):
-        """"""
+        """ Method init for the DBStorange """
         user = os.getenv('HBNB_MYSQL_USER')
         password = os.getenv('HBNB_MYSQL_PWD')
         host = os.getenv('HBNB_MYSQL_HOST')
@@ -36,7 +36,7 @@ class DBStorage:
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        """"""
+        """ That returns a list with all instances """
 
         dic = {}
         if cls:
@@ -50,12 +50,12 @@ class DBStorage:
         return dic
 
     def new(self, obj):
-        """"""
+        """ The add object in self session """
         if obj:
             self.__session.add(obj)
 
     def save(self):
-        """"""
+        """ That save the session """
         self.__session.commit()
 
     def delete(self, obj=None):
@@ -65,7 +65,7 @@ class DBStorage:
             self.save()
 
     def reload(self):
-        """"""
+        """ That reload the session """
         Base.metadata.create_all(self.__engine)
         Session_tmp = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(Session_tmp)
