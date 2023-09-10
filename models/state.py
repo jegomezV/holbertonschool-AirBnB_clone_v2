@@ -13,7 +13,7 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
 
     # FileStorage
-    if getenv("HBNB_TYPE_STORANGE") is None:
+    if getenv("HBNB_TYPE_STORANGE") in (None, "fs"):
         @property
         def cities(self):
             """return the cities by state"""
